@@ -1,11 +1,14 @@
 import React from 'react'
 import {Grid, Paper} from "@material-ui/core"
-const WeatherDetails = () => (
+const WeatherDetails = ({detail,iconClass}) => {
+
+  return(
        <Grid item lg={2} >
          <Paper style={{textAlign: 'left'}} >
-            <p>some text gilberish dll abac asdjsaljd</p>
+            <i className={iconClass}></i>
+            <p>{detail}</p>
          </Paper>
-       </Grid>        
-)
+       </Grid>   )     
+}
 
 export default WeatherDetails;
