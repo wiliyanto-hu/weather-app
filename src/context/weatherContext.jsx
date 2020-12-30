@@ -9,14 +9,14 @@ export function WeatherProvider (props){
 const [city,setCity] = useState('jakarta')
   const [details,setDetails] = useState({})
 
-const changeCity = () => {
-    setCity('pekanbaru')
+const changeCity = (city='pekanbaru') => {
+    setCity(city)
 }  
  useEffect(() => {
     async function getWeather (){
+      try {
         const res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`)
         const {data} = res
-        console.log(data)
         const {name, main, weather,sys, wind} = data
         setDetails({
           cityName:name,
@@ -29,7 +29,25 @@ const changeCity = () => {
           maxTemp:(main.temp_max - 273.15).toFixed(2),
           minTemp:(main.temp_min - 273.15).toFixed(2),
         })
-        
+      }
+        catch (error){
+          if (error.response) {
+            const {message} = error.response.data
+            setDetails({
+              cityName:message,
+              weather:"Please select another city",
+              countryID: 'X',
+              icon: 'X',
+              temperature:'X',
+              
+              humidity:'X',
+              windSpeed:'X',
+              maxTemp:'X',
+              minTemp:'X',
+            })
+        } 
+        console.log('this is the ERROR',error);
+        }
     }
     getWeather()
  }, [city]) 
