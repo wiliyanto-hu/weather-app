@@ -15,6 +15,10 @@ const changeCity = (city='pekanbaru') => {
  useEffect(() => {
     async function getWeather (){
       try {
+        setDetails({
+          cityName:'Loading Data',
+          weather: 'Please Wait'
+        })
         const res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`)
         const {data} = res
         const {name, main, weather,sys, wind} = data
@@ -45,6 +49,24 @@ const changeCity = (city='pekanbaru') => {
               maxTemp:'X',
               minTemp:'X',
             })
+        }
+        else if (error.request) {
+          setDetails({
+            cityName:"Connection error occurred",
+            weather:"Please check your internet connection",
+            countryID: 'X',
+            icon: 'X',
+            temperature:'X',
+            
+            humidity:'X',
+            windSpeed:'X',
+            maxTemp:'X',
+            minTemp:'X',
+          })
+          console.log(error.request, "11111111");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message, "222222");
         } 
         console.log('this is the ERROR',error);
         }
